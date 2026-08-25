@@ -103,6 +103,7 @@ h1 {
   margin: 0;
   font-size: 1.25rem;
   letter-spacing: -0.025em;
+  text-align: center;
 }
 
 .game-card p {
@@ -110,6 +111,7 @@ h1 {
   color: var(--muted);
   font-size: 0.9rem;
   line-height: 1.5;
+  text-align: center;
 }
 
 .play-button {
@@ -127,11 +129,6 @@ h1 {
   transition:
     transform 140ms ease,
     background 140ms ease;
-}
-
-.play-button:hover {
-  background: #ffffff;
-  transform: translateY(-1px);
 }
 
 .play-button:active {

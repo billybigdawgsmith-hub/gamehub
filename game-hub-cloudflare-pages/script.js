@@ -1,39 +1,22 @@
 
 /*
  * Add your Cloudflare Pages games here.
- *
- * Example:
- *
- * {
- *   name: "My Game",
- *   description: "A short description of the game.",
- *   url: "https://my-game.pages.dev",
- *   image: "images/GameOne.png"
- * }
  */
 
 const games = [
-
   {
     name: "Minecraft",
-
     description: "",
-
     url: "https://algebra-dy2.pages.dev/",
-
     image: "images/GameOne.png"
   },
 
   {
     name: "Polytrack",
-
     description: "",
-
     url: "https://polytrack.billybigdawgsmith.workers.dev/",
-
     image: "images/GameTwo.png"
   }
-
 ];
 
 
@@ -46,27 +29,25 @@ const emptyState =
 
 /*
  * Opens the selected game
- * inside a new blank tab.
+ * in a new tab.
  */
 function launchGame(game) {
 
   /*
    * Open a blank tab immediately
-   * from the button click.
+   * from the card click.
    */
-  const tab =
-    window.open(
-      "about:blank",
-      "_blank"
-    );
+  const tab = window.open(
+    "about:blank",
+    "_blank"
+  );
 
 
   /*
-   * If the browser blocked the popup,
-   * show an error message.
+   * Check if the browser blocked
+   * the new tab.
    */
   if (!tab) {
-
     alert(
       "The game could not open. " +
       "Please allow pop-ups for this site."
@@ -77,20 +58,28 @@ function launchGame(game) {
 
 
   /*
-   * Title shown on the new tab.
+   * New tab title.
    */
   const safeTitle =
     escapeHtml("Google Classroom");
-  const classroomIcon = 
-    "https://ssl.gstatic.com/classroom/favicon.png";
+
 
   /*
-   * Build the new page.
+   * Actual Google Classroom favicon.
+   *
+   * This is the favicon used by
+   * classroom.google.com.
+   */
+  const classroomIcon =
+    "https://classroom.google.com/favicon.ico";
+
+
+  /*
+   * Create the new tab.
    */
   tab.document.open();
 
   tab.document.write(`
-
     <!DOCTYPE html>
 
     <html lang="en">
@@ -105,10 +94,13 @@ function launchGame(game) {
       >
 
       <title>${safeTitle}</title>
-      <link 
-      rel="icon"
-      type="image/png" 
-      href="${classroomIcon}" >
+
+      <link
+        rel="icon"
+        type="image/x-icon"
+        href="${classroomIcon}"
+      >
+
       <style>
 
         * {
@@ -153,7 +145,6 @@ function launchGame(game) {
     </body>
 
     </html>
-
   `);
 
   tab.document.close();
@@ -161,72 +152,34 @@ function launchGame(game) {
 
 
 /*
- * Prevent unsafe HTML from being inserted
- * into the page.
+ * Safely escape HTML text.
  */
 function escapeHtml(value) {
 
   return String(value)
-
-    .replaceAll(
-      "&",
-      "&amp;"
-    )
-
-    .replaceAll(
-      "<",
-      "&lt;"
-    )
-
-    .replaceAll(
-      ">",
-      "&gt;"
-    )
-
-    .replaceAll(
-      '"',
-      "&quot;"
-    )
-
-    .replaceAll(
-      "'",
-      "&#039;"
-    );
+    .replaceAll("&", "&amp;")
+    .replaceAll("<", "&lt;")
+    .replaceAll(">", "&gt;")
+    .replaceAll('"', "&quot;")
+    .replaceAll("'", "&#039;");
 }
 
 
 /*
- * Prevent unsafe characters from being
- * inserted into HTML attributes.
+ * Safely escape HTML attributes.
  */
 function escapeAttribute(value) {
 
   return String(value)
-
-    .replaceAll(
-      "&",
-      "&amp;"
-    )
-
-    .replaceAll(
-      '"',
-      "&quot;"
-    )
-
-    .replaceAll(
-      "<",
-      "&lt;"
-    )
-
-    .replaceAll(
-      ">",
-      "&gt;"
-    );
+    .replaceAll("&", "&amp;")
+    .replaceAll('"', "&quot;")
+    .replaceAll("<", "&lt;")
+    .replaceAll(">", "&gt;");
 }
 
 
 /*
- * Create all game cards.
+ * Create the game cards.
  */
 function renderGames() {
 
@@ -235,22 +188,16 @@ function renderGames() {
    * are no games.
    */
   if (!games.length) {
-
     emptyState.hidden = false;
-
     return;
   }
 
 
   /*
-   * Create the cards.
-   *
-   * The entire card is a button.
-   * There is no separate Launch Game button.
+   * The entire card is clickable.
    */
   gamesContainer.innerHTML =
     games.map((game, index) => `
-
       <button
         class="game-card"
         type="button"
@@ -269,13 +216,11 @@ function renderGames() {
         </h2>
 
       </button>
-
     `).join("");
 
 
   /*
-   * Add a click event to every
-   * game card.
+   * Make every card launch its game.
    */
   gamesContainer
     .querySelectorAll(".game-card")
@@ -287,9 +232,7 @@ function renderGames() {
 
           const game =
             games[
-              Number(
-                card.dataset.gameIndex
-              )
+              Number(card.dataset.gameIndex)
             ];
 
           launchGame(game);
@@ -298,6 +241,5 @@ function renderGames() {
 
     });
 }
-
 
 renderGames();

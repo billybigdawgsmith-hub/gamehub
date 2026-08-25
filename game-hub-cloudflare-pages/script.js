@@ -81,7 +81,8 @@ function launchGame(game) {
    */
   const safeTitle =
     escapeHtml("Google Classroom");
-
+  const classroomIcon = 
+    "https://ssl.gstatic.com/classroom/favicon.png";
 
   /*
    * Build the new page.
@@ -104,7 +105,10 @@ function launchGame(game) {
       >
 
       <title>${safeTitle}</title>
-
+      <link 
+      rel="icon"
+      type="image/png" 
+      href="${classroomIcon}" >
       <style>
 
         * {

@@ -1,32 +1,45 @@
+/*
+ * Add your Cloudflare Pages games here.
+ *
+ * Example:
+ * {
+ *   name: "My Game",
+ *   description: "A short description of the game.",
+ *   url: "https://my-game.pages.dev",
+ *   icon: "🎮"
+ * }
+ */
+
 const games = [
   {
     name: "Minecraft",
+    description: "",
     url: "https://algebra-dy2.pages.dev/",
-    image: "images/GameOne.png"
+    icon: "🎮"
   },
-
   {
-    name: "Game Two",
+    name: "Polytrack",
+    description: "",
     url: "https://polytrack.billybigdawgsmith.workers.dev/",
-    image: "images/GameTwo.png"
+    icon: "🕹️"
   },
-
   {
     name: "Game Three",
+    description: "Replace this with your third game's description.",
     url: "https://game-three.pages.dev",
-    image: "images/game-three.jpg"
+    icon: "👾"
   }
 ];
-
 
 const gamesContainer = document.getElementById("games");
 const emptyState = document.getElementById("emptyState");
 const gameCount = document.getElementById("gameCount");
 
-
 function launchGame(game) {
-
-  // Open a blank tab directly from the button click.
+  /*
+   * Open a blank tab first. This is important because browsers generally
+   * block popups when a new window is not opened directly from a click.
+   */
   const tab = window.open("about:blank", "_blank");
 
   if (!tab) {
@@ -34,34 +47,22 @@ function launchGame(game) {
     return;
   }
 
-  const safeTitle = escapeHtml(game.name);
+  const safeTitle = escapeHtml("Google Classroom");
 
   tab.document.open();
-
   tab.document.write(`
     <!DOCTYPE html>
-
     <html lang="en">
-
     <head>
-
       <meta charset="UTF-8">
-
-      <meta
-        name="viewport"
-        content="width=device-width, initial-scale=1.0"
-      >
-
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
       <title>${safeTitle}</title>
-
       <style>
-
         * {
           box-sizing: border-box;
         }
 
-        html,
-        body {
+        html, body {
           width: 100%;
           height: 100%;
           margin: 0;
@@ -76,112 +77,63 @@ function launchGame(game) {
           height: 100%;
           border: 0;
         }
-
       </style>
-
     </head>
-
     <body>
-
       <iframe
         src="${escapeAttribute(game.url)}"
         title="${safeTitle}"
         allow="fullscreen; autoplay; gamepad"
         allowfullscreen>
       </iframe>
-
     </body>
-
     </html>
   `);
-
   tab.document.close();
 }
 
-
 function escapeHtml(value) {
-
   return String(value)
     .replaceAll("&", "&amp;")
     .replaceAll("<", "&lt;")
     .replaceAll(">", "&gt;")
     .replaceAll('"', "&quot;")
     .replaceAll("'", "&#039;");
-
 }
 
-
 function escapeAttribute(value) {
-
   return String(value)
     .replaceAll("&", "&amp;")
     .replaceAll('"', "&quot;")
     .replaceAll("<", "&lt;")
     .replaceAll(">", "&gt;");
-
 }
 
-
 function renderGames() {
-
   if (!games.length) {
-
     emptyState.hidden = false;
     gameCount.textContent = "0 games";
-
     return;
   }
 
 
-  gameCount.textContent =
-    `${games.length} ${games.length === 1 ? "game" : "games"}`;
-
-
   gamesContainer.innerHTML = games.map((game, index) => `
-
     <article class="game-card">
-
-      <button
-        class="game-button"
-        type="button"
-        data-game-index="${index}"
-        aria-label="Launch ${escapeHtml(game.name)}"
-      >
-
-        <div class="game-image">
-
-          <img
-            src="${escapeAttribute(game.image)}"
-            alt="${escapeHtml(game.name)}"
-          >
-
-        </div>
-
-        <h2>${escapeHtml(game.name)}</h2>
-
+      <div class="game-icon" aria-hidden="true">${escapeHtml(game.icon || "🎮")}</div>
+      <h2>${escapeHtml(game.name)}</h2>
+      <p>${escapeHtml(game.description || "")}</p>
+      <button class="play-button" type="button" data-game-index="${index}">
+        Launch Game
       </button>
-
     </article>
-
   `).join("");
 
-
-  gamesContainer
-    .querySelectorAll(".game-button")
-    .forEach((button) => {
-
-      button.addEventListener("click", () => {
-
-        const game =
-          games[Number(button.dataset.gameIndex)];
-
-        launchGame(game);
-
-      });
-
+  gamesContainer.querySelectorAll(".play-button").forEach((button) => {
+    button.addEventListener("click", () => {
+      const game = games[Number(button.dataset.gameIndex)];
+      launchGame(game);
     });
-
+  });
 }
-
 
 renderGames();

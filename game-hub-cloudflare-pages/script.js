@@ -43,9 +43,6 @@ const gamesContainer =
 const emptyState =
   document.getElementById("emptyState");
 
-const gameCount =
-  document.getElementById("gameCount");
-
 
 /*
  * Opens the selected game
@@ -56,9 +53,6 @@ function launchGame(game) {
   /*
    * Open a blank tab immediately
    * from the button click.
-   *
-   * This helps prevent popup blockers
-   * from blocking the new tab.
    */
   const tab =
     window.open(
@@ -240,22 +234,8 @@ function renderGames() {
 
     emptyState.hidden = false;
 
-    gameCount.textContent =
-      "0 games";
-
     return;
   }
-
-
-  /*
-   * Update the game count.
-   */
-  gameCount.textContent =
-    `${games.length} ${
-      games.length === 1
-        ? "game"
-        : "games"
-    }`;
 
 
   /*

@@ -1,4 +1,3 @@
-
 /*
  * Add your Cloudflare Pages games here.
  */
@@ -28,6 +27,13 @@ const emptyState =
 
 
 /*
+ * Google Classroom icon.
+ */
+const classroomIcon =
+  "https://cdn.jsdelivr.net/gh/homarr-labs/dashboard-icons/webp/google-classroom.webp";
+
+
+/*
  * Opens the selected game
  * in a new tab.
  */
@@ -48,6 +54,7 @@ function launchGame(game) {
    * the new tab.
    */
   if (!tab) {
+
     alert(
       "The game could not open. " +
       "Please allow pop-ups for this site."
@@ -58,24 +65,14 @@ function launchGame(game) {
 
 
   /*
-   * New tab title.
+   * Title for the new tab.
    */
   const safeTitle =
     escapeHtml("Google Classroom");
 
 
   /*
-   * Actual Google Classroom favicon.
-   *
-   * This is the favicon used by
-   * classroom.google.com.
-   */
-  const classroomIcon =
-    "https://classroom.google.com/favicon.ico";
-
-
-  /*
-   * Create the new tab.
+   * Create the new page.
    */
   tab.document.open();
 
@@ -95,9 +92,15 @@ function launchGame(game) {
 
       <title>${safeTitle}</title>
 
+      <!-- Google Classroom icon -->
       <link
         rel="icon"
-        type="image/x-icon"
+        type="image/webp"
+        href="${classroomIcon}"
+      >
+
+      <link
+        rel="shortcut icon"
         href="${classroomIcon}"
       >
 
@@ -148,6 +151,32 @@ function launchGame(game) {
   `);
 
   tab.document.close();
+
+
+  /*
+   * Set the favicon again after the
+   * document has been created.
+   *
+   * This helps browsers that don't
+   * immediately recognize the favicon
+   * inside document.write().
+   */
+  const favicon =
+    tab.document.createElement("link");
+
+  favicon.rel = "icon";
+  favicon.type = "image/webp";
+  favicon.href = classroomIcon;
+
+  tab.document.head.appendChild(favicon);
+
+
+  /*
+   * Set the title again after the
+   * document has been created.
+   */
+  tab.document.title =
+    "Google Classroom";
 }
 
 
@@ -157,11 +186,31 @@ function launchGame(game) {
 function escapeHtml(value) {
 
   return String(value)
-    .replaceAll("&", "&amp;")
-    .replaceAll("<", "&lt;")
-    .replaceAll(">", "&gt;")
-    .replaceAll('"', "&quot;")
-    .replaceAll("'", "&#039;");
+
+    .replaceAll(
+      "&",
+      "&amp;"
+    )
+
+    .replaceAll(
+      "<",
+      "&lt;"
+    )
+
+    .replaceAll(
+      ">",
+      "&gt;"
+    )
+
+    .replaceAll(
+      '"',
+      "&quot;"
+    )
+
+    .replaceAll(
+      "'",
+      "&#039;"
+    );
 }
 
 
@@ -171,15 +220,31 @@ function escapeHtml(value) {
 function escapeAttribute(value) {
 
   return String(value)
-    .replaceAll("&", "&amp;")
-    .replaceAll('"', "&quot;")
-    .replaceAll("<", "&lt;")
-    .replaceAll(">", "&gt;");
+
+    .replaceAll(
+      "&",
+      "&amp;"
+    )
+
+    .replaceAll(
+      '"',
+      "&quot;"
+    )
+
+    .replaceAll(
+      "<",
+      "&lt;"
+    )
+
+    .replaceAll(
+      ">",
+      "&gt;"
+    );
 }
 
 
 /*
- * Create the game cards.
+ * Create all game cards.
  */
 function renderGames() {
 
@@ -188,16 +253,21 @@ function renderGames() {
    * are no games.
    */
   if (!games.length) {
+
     emptyState.hidden = false;
+
     return;
   }
 
 
   /*
+   * Create the cards.
+   *
    * The entire card is clickable.
    */
   gamesContainer.innerHTML =
     games.map((game, index) => `
+
       <button
         class="game-card"
         type="button"
@@ -216,11 +286,12 @@ function renderGames() {
         </h2>
 
       </button>
+
     `).join("");
 
 
   /*
-   * Make every card launch its game.
+   * Make every game card clickable.
    */
   gamesContainer
     .querySelectorAll(".game-card")
@@ -232,7 +303,9 @@ function renderGames() {
 
           const game =
             games[
-              Number(card.dataset.gameIndex)
+              Number(
+                card.dataset.gameIndex
+              )
             ];
 
           launchGame(game);
@@ -242,4 +315,8 @@ function renderGames() {
     });
 }
 
+
+/*
+ * Render the games when the page loads.
+ */
 renderGames();

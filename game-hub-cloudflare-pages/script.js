@@ -116,7 +116,6 @@ function renderGames() {
     return;
   }
 
-  gameCount.textContent = `${games.length} ${games.length === 1 ? "game" : "games"}`;
 
   gamesContainer.innerHTML = games.map((game, index) => `
     <article class="game-card">

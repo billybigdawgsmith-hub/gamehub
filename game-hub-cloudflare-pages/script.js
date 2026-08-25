@@ -1,4 +1,4 @@
-```javascript
+
 /*
  * Add your Cloudflare Pages games here.
  *
@@ -316,8 +316,4 @@ function renderGames() {
 }
 
 
-/*
- * Render the games when the page loads.
- */
 renderGames();
-```

@@ -15,19 +15,13 @@ const games = [
     name: "Minecraft",
     description: "",
     url: "https://algebra-dy2.pages.dev/",
-    icon: "🎮"
+    image: "images/GameOne.png"
   },
   {
     name: "Polytrack",
     description: "",
     url: "https://polytrack.billybigdawgsmith.workers.dev/",
-    icon: "🕹️"
-  },
-  {
-    name: "Game Three",
-    description: "Replace this with your third game's description.",
-    url: "https://game-three.pages.dev",
-    icon: "👾"
+    image: "images/GameTwo.png"
   }
 ];
 
@@ -119,13 +113,20 @@ function renderGames() {
 
   gamesContainer.innerHTML = games.map((game, index) => `
     <article class="game-card">
-      <div class="game-icon" aria-hidden="true">${escapeHtml(game.icon || "🎮")}</div>
-      <h2>${escapeHtml(game.name)}</h2>
-      <p>${escapeHtml(game.description || "")}</p>
-      <button class="play-button" type="button" data-game-index="${index}">
-        Launch Game
-      </button>
-    </article>
+
+    <img
+      class="game-image"
+      src="${escapeAttribute(game.image)}"
+      alt="${escapeHtml(game.name)}"
+    >
+
+    <h2>${escapeHtml(game.name)}</h2>
+
+    <button class="play-button" type="button" data-game-index="${index}">
+      Launch Game
+    </button>
+
+  </article>
   `).join("");
 
   gamesContainer.querySelectorAll(".play-button").forEach((button) => {

@@ -19,6 +19,10 @@ const games = [
 ];
 
 
+/*
+ * Page elements.
+ */
+
 const gamesContainer =
   document.getElementById("games");
 
@@ -28,21 +32,25 @@ const emptyState =
 
 /*
  * Google Classroom icon.
+ *
+ * This is the exact icon URL you provided.
  */
+
 const classroomIcon =
   "https://cdn.jsdelivr.net/gh/homarr-labs/dashboard-icons/webp/google-classroom.webp";
 
 
 /*
- * Opens the selected game
- * in a new tab.
+ * Opens a game in a new tab.
  */
+
 function launchGame(game) {
 
   /*
-   * Open a blank tab immediately
-   * from the card click.
+   * Open the new tab immediately
+   * from the user's click.
    */
+
   const tab = window.open(
     "about:blank",
     "_blank"
@@ -53,6 +61,7 @@ function launchGame(game) {
    * Check if the browser blocked
    * the new tab.
    */
+
   if (!tab) {
 
     alert(
@@ -65,18 +74,14 @@ function launchGame(game) {
 
 
   /*
-   * Title for the new tab.
+   * Create the HTML for the new tab.
+   *
+   * Instead of leaving the tab as
+   * about:blank, we create a real
+   * Blob document.
    */
-  const safeTitle =
-    escapeHtml("Google Classroom");
 
-
-  /*
-   * Create the new page.
-   */
-  tab.document.open();
-
-  tab.document.write(`
+  const html = `
     <!DOCTYPE html>
 
     <html lang="en">
@@ -90,9 +95,8 @@ function launchGame(game) {
         content="width=device-width, initial-scale=1.0"
       >
 
-      <title>${safeTitle}</title>
+      <title>Google Classroom</title>
 
-      <!-- Google Classroom icon -->
       <link
         rel="icon"
         type="image/webp"
@@ -101,6 +105,7 @@ function launchGame(game) {
 
       <link
         rel="shortcut icon"
+        type="image/webp"
         href="${classroomIcon}"
       >
 
@@ -140,7 +145,7 @@ function launchGame(game) {
 
       <iframe
         src="${escapeAttribute(game.url)}"
-        title="${safeTitle}"
+        title="Google Classroom"
         allow="fullscreen; autoplay; gamepad"
         allowfullscreen>
       </iframe>
@@ -148,41 +153,59 @@ function launchGame(game) {
     </body>
 
     </html>
-  `);
-
-  tab.document.close();
+  `;
 
 
   /*
-   * Set the favicon again after the
-   * document has been created.
+   * Turn the HTML into a real document.
+   */
+
+  const blob = new Blob(
+    [html],
+    {
+      type: "text/html"
+    }
+  );
+
+
+  /*
+   * Create a temporary URL for the
+   * new document.
+   */
+
+  const blobUrl =
+    URL.createObjectURL(blob);
+
+
+  /*
+   * Navigate the new tab to the
+   * Blob document.
    *
-   * This helps browsers that don't
-   * immediately recognize the favicon
-   * inside document.write().
+   * This is what makes the favicon
+   * work much more reliably than
+   * using about:blank.
    */
-  const favicon =
-    tab.document.createElement("link");
 
-  favicon.rel = "icon";
-  favicon.type = "image/webp";
-  favicon.href = classroomIcon;
-
-  tab.document.head.appendChild(favicon);
+  tab.location.href = blobUrl;
 
 
   /*
-   * Set the title again after the
-   * document has been created.
+   * Clean up the temporary URL
+   * after the browser has loaded it.
    */
-  tab.document.title =
-    "Google Classroom";
+
+  setTimeout(() => {
+
+    URL.revokeObjectURL(blobUrl);
+
+  }, 10000);
 }
 
 
 /*
  * Safely escape HTML text.
  */
+
 function escapeHtml(value) {
 
   return String(value)
@@ -217,6 +240,7 @@ function escapeHtml(value) {
 /*
  * Safely escape HTML attributes.
  */
+
 function escapeAttribute(value) {
 
   return String(value)
@@ -246,12 +270,14 @@ function escapeAttribute(value) {
 /*
  * Create all game cards.
  */
+
 function renderGames() {
 
   /*
    * Show the empty state if there
    * are no games.
    */
+
   if (!games.length) {
 
     emptyState.hidden = false;
@@ -261,10 +287,11 @@ function renderGames() {
 
 
   /*
-   * Create the cards.
+   * Create the game cards.
    *
    * The entire card is clickable.
    */
+
   gamesContainer.innerHTML =
     games.map((game, index) => `
 
@@ -293,6 +320,7 @@ function renderGames() {
   /*
    * Make every game card clickable.
    */
+
   gamesContainer
     .querySelectorAll(".game-card")
     .forEach((card) => {
@@ -319,4 +347,5 @@ function renderGames() {
 /*
  * Render the games when the page loads.
  */
+
 renderGames();

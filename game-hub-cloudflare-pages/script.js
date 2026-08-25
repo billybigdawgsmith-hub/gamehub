@@ -111,22 +111,23 @@ function renderGames() {
   }
 
 
-gamesContainer.innerHTML = games.map((game, index) => `
-  <button 
-    type="button" 
-    class="game-card" 
-    data-game-index="${index}"
-    aria-label="Launch ${escapeAttribute(game.name)}"
-  >
+  gamesContainer.innerHTML = games.map((game, index) => `
+    <article class="game-card">
+
     <img
       class="game-image"
       src="${escapeAttribute(game.image)}"
-      alt=""
+      alt="${escapeHtml(game.name)}"
     >
-    <span class="game-title">${escapeHtml(game.name)}</span>
-    <span class="play-button" aria-hidden="true">Launch Game</span>
-  </button>
-`).join("");
+
+    <h2>${escapeHtml(game.name)}</h2>
+
+    <button class="play-button" type="button" data-game-index="${index}">
+      Launch Game
+    </button>
+
+  </article>
+  `).join("");
 
   gamesContainer.querySelectorAll(".play-button").forEach((button) => {
     button.addEventListener("click", () => {

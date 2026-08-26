@@ -31,7 +31,7 @@ const emptyState =
  * Google Classroom icon.
  */
 const classroomIcon =
-  "https://cdn.jsdelivr.net/gh/homarr-labs/dashboard-icons/webp/google-classroom.webp";
+  "https://ssl.gstatic.com/classroom/favicon.png";
 
 
 /*

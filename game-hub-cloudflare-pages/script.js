@@ -1,6 +1,4 @@
-/*
- * Add your Cloudflare Pages games here.
- */
+
 
 const games = [
   {

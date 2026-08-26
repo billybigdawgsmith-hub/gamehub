@@ -9,12 +9,12 @@ const games = [
 
   {
     name: "Polytrack",
-    url: "https://polytrack.billybigdawgsmith.workers.dev/",
+    url: "https://polytrack-cnc.pages.dev/",
     image: "images/GameTwo.png"
   },
   {
     name: "Idle Breakout",
-    url: "https://billybigdawgsmith-hub.github.io/idle-breakout/",
+    url: "https://idle-breakout-25e.pages.dev/",
     image: "images/GameThree.jpg"
   }
 ];

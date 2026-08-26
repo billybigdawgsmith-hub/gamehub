@@ -5,17 +5,18 @@
 const games = [
   {
     name: "Minecraft",
-    description: "",
     url: "https://algebra-dy2.pages.dev/",
     image: "images/GameOne.png"
   },
 
   {
     name: "Polytrack",
-    description: "",
     url: "https://polytrack.billybigdawgsmith.workers.dev/",
     image: "images/GameTwo.png"
-  }
+  },
+    name: "Idle Breakout",
+    url: "https://billybigdawgsmith-hub.github.io/idle-breakout/",
+    image: "images/GameThree.jpg"
 ];
 
 

@@ -45,8 +45,8 @@ function launchGame(game) {
    * from the card click.
    */
   const tab = window.open(
-    "about:blank",
-    "_blank"
+  "about:blank#",
+  "_blank"
   );
 
 

@@ -15,6 +15,11 @@ const games = [
     description: "",
     url: "https://polytrack.billybigdawgsmith.workers.dev/",
     image: "images/GameTwo.png"
+  },
+  {
+    name: "Idle Breakout",
+    url: "https://billybigdawgsmith-hub.github.io/idle-breakout/",
+    image: "images/GameThree.jpg"
   }
 ];
 
